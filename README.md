@@ -4,9 +4,20 @@ A new Flutter application.
 
 ## Getting Started
 
-Important commands
+### Important commands
 
-- for creating auto generated files => flutter packages pub run build_runner watch
+- for creating auto generated files => **flutter packages pub run build_runner watch**
+
+----------------------------------------------------------------------------------------
+**Flavor build generation commands**
+- for creating flavor builds => **flutter build apk --flavor prod**
+- for creating flavor builds with entry point configuration => **flutter build apk --flavor prod -t
+ lib/main_prod.dart**
+ note:
+  1.  just keep string translatable false for production or lint disabling for translatable
+  from gradle.
+  2. todo : IOS flavor is remaining, as XCode is required for that.
+ ------------------------------------------------------------------------------------------
 
 Steps for creating built auto generated file: 
 1. create [built_Model] file create BuiltModel class. (note: you can use blts custom made snippet)

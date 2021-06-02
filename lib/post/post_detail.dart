@@ -29,7 +29,7 @@ class PostDetailPage extends StatelessWidget {
             if (snapshot.hasError ||
                 snapshot.data == null ||
                 snapshot.data!.statusCode != 200) {
-              String error = snapshot.error.toString() ?? 'Error occurred';
+              String error = snapshot.error.toString();
               return Center(child: Text(error));
             } else {
               final Map posts = json.decode(snapshot.data!.bodyString);

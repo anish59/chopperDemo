@@ -48,6 +48,27 @@ android {
             signingConfig signingConfigs.debug
         }
     }
+    flavorDimensions 'mode'
+    productFlavors {
+
+        dev {
+            dimension = 'mode'
+            applicationIdSuffix ".dev"
+        }
+
+        mock {
+            dimension = 'mode'
+            applicationIdSuffix ".mock"
+        }
+
+        production {
+            dimension = 'mode'
+        }
+    }
+
+    lintOptions{
+        disable 'MissingTranslation'
+    }
 }
 
 flutter {
