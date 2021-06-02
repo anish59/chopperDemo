@@ -1,0 +1,5 @@
+{
+  "message" : "error message",
+  "applicationStatusCode": 1000,
+  "httpStatus": 400
+}
