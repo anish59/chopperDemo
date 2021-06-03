@@ -19,7 +19,7 @@ class AppConfig {
   static Future<void> configure(MethodResponse fn) async {
     try {
 
-       String? flavor  = Environment.mock.toString();
+       String? flavor  = Environment.dev.toString();
  /*      flavor = await MethodChannel(AppStrings.channel.kApp)
            .invokeMethod<String>(AppStrings.channelMethod.kFlavor);
 

@@ -1,4 +1,4 @@
-import 'package:chopper_demo/post/home_page.dart';
+import 'package:chopper_demo/ui/post/screen/home_page.dart';
 import 'package:chopper_demo/util/logger.dart';
 import 'package:chopper_demo/webService/app_config.dart';
 import 'package:chopper_demo/webService/post_api_service.dart';
