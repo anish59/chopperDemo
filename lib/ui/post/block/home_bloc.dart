@@ -7,7 +7,7 @@ import 'package:chopper_demo/util/logger.dart';
 import 'package:chopper_demo/webService/post_api_service.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class HomeBlock extends Bloc<HomeEvent, HomeState> {
+class HomeBlock extends Bloc<EventsHome, HomeState> {
   final PostApiService client;
 
   HomeBlock({required this.client}) : super(HomeStateLoading());
@@ -16,17 +16,30 @@ class HomeBlock extends Bloc<HomeEvent, HomeState> {
   HomeState get state => HomeStateLoading();
 
   @override
-  Stream<HomeState> mapEventToState(HomeEvent event) async* {
+  Stream<HomeState> mapEventToState(EventsHome event) async* {
     try {
-      if (event is HomeEventGetAllPost) {
+      if (event is EventHomeGetAllPost) {
         yield HomeStateLoading();
 
         Response<BuiltList<BuiltPost>> allPost = await client.getPosts();
 
         // safe accessing the value
         yield HomeStateGettingAllPost(allPost.body?.toList() ?? []);
-      } else if (event is HomeEventOpenPostDetail) {
+      } else if (event is EventHomeOpenPostDetail) {
         yield HomeStateOpenPost(event.postId);
+      }else if(event is EventHomePostThePost){
+        yield HomeStatePosting();
+
+
+        final response = await client.postPost(event.post);
+
+        if(response.isSuccessful){
+          log.info("successfully Posted : ${response.body.toString()}" );
+          yield HomeStatePostPosted("successfully Posted");
+        }else{
+          yield HomeStateErrorOccurred('failed to post');
+        }
+
       }
     } catch (e) {
       print(e);

@@ -1,4 +1,4 @@
-import 'package:chopper_demo/ui/post/block/home_block.dart';
+import 'package:chopper_demo/ui/post/block/home_bloc.dart';
 import 'package:chopper_demo/ui/post/screen/home_screen.dart';
 import 'package:chopper_demo/webService/post_api_service.dart';
 import 'package:flutter/cupertino.dart';

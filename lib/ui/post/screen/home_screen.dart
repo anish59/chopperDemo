@@ -1,8 +1,10 @@
 import 'package:chopper_demo/model/built_post.dart';
-import 'package:chopper_demo/ui/post/block/home_block.dart';
+import 'package:chopper_demo/ui/post/block/home_bloc.dart';
 import 'package:chopper_demo/ui/post/block/home_event.dart';
 import 'package:chopper_demo/ui/post/block/home_state.dart';
-import 'package:chopper_demo/ui/postDetail/post_detail.dart';
+import 'package:chopper_demo/ui/postDetail/screen/post_detail_page.dart';
+import 'package:chopper_demo/ui_components/loader_dialog.dart';
+import 'package:chopper_demo/ui_components/snackbar.dart';
 import 'package:chopper_demo/webService/post_api_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -16,13 +18,14 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  late HomeBlock homeBlock;
+  late HomeBlock homeBloc;
+  AlertDialog? dialog;
 
   @override
   void initState() {
     super.initState();
-    homeBlock = BlocProvider.of<HomeBlock>(context);
-    homeBlock.add(HomeEventGetAllPost());
+    homeBloc = BlocProvider.of<HomeBlock>(context);
+    homeBloc.add(EventHomeGetAllPost());
   }
 
   @override
@@ -35,18 +38,11 @@ class _HomeScreenState extends State<HomeScreen> {
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
         onPressed: () async {
-          final response =
-              await Provider.of<PostApiService>(context, listen: false)
-                  .postPost(BuiltPost((b) => b
-                    ..title = 'new Title'
-                    ..body = 'new body text blah blah'));
+          BuiltPost post = BuiltPost((b) => b
+            ..title = 'new Title'
+            ..body = 'new body text blah blah');
 
-          if (response.isSuccessful) {
-            print('success ${response.body}');
-          } else {
-            print('RC => ${response.statusCode}');
-            print('error add post: ${response.error}');
-          }
+          homeBloc.add(EventHomePostThePost(post));
         },
       ),
     );
@@ -67,6 +63,9 @@ class _HomeScreenState extends State<HomeScreen> {
           return Center(child: CircularProgressIndicator());
         } else if (state is HomeStateGettingAllPost) {
           return _buildPostList(context, state.allPost);
+        } else if (state is HomeStatePostPosted) {
+          return Center(child: CircularProgressIndicator()); // after posting
+          // we need to load the data again that why progress indicator
         } else {
           return Scaffold(body: Center(child: Text("Proper state not found")));
         }
@@ -84,11 +83,21 @@ class _HomeScreenState extends State<HomeScreen> {
           // but for understanding we have to implement this if condition block
           // that's y calling back the api again
 
-          homeBlock.add(HomeEventGetAllPost());
+          homeBloc.add(EventHomeGetAllPost());
 
           // and one more thing set this kind of state only when you don't
           // have to come back again and reloading the item is not needed
 
+        } else if (state is HomeStatePosting) {
+          dialog = showLoaderDialog(context);
+        } else if (state is HomeStatePostPosted) {
+          if (dialog != null) {
+            Navigator.pop(context); // check from here
+          }
+
+          showSnackBar(context, msg: 'your Post is successfully posted');
+
+          homeBloc.add(EventHomeGetAllPost());
         }
       },
     );
@@ -134,7 +143,7 @@ class _HomeScreenState extends State<HomeScreen> {
               Navigator.of(context).push(MaterialPageRoute(
                   builder: (_) => PostDetailPage(postId: posts[index].id!)))
                   */
-              homeBlock.add(HomeEventOpenPostDetail(posts[index].id ?? 0))
+              homeBloc.add(EventHomeOpenPostDetail(posts[index].id ?? 0))
             },
           ),
         );

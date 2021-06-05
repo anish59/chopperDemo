@@ -1,16 +1,26 @@
+import 'package:chopper_demo/model/built_post.dart';
 import 'package:equatable/equatable.dart';
 
-abstract class HomeEvent extends Equatable {
-  const HomeEvent();
+abstract class EventsHome extends Equatable {
+  const EventsHome();
 
   @override
   List<Object> get props => [];
 }
 
-class HomeEventGetAllPost extends HomeEvent {}
+class EventHomeGetAllPost extends EventsHome {}
 
-class HomeEventOpenPostDetail extends HomeEvent {
+class EventHomeOpenPostDetail extends EventsHome {
   final int postId;
 
-  HomeEventOpenPostDetail(this.postId);
+  EventHomeOpenPostDetail(this.postId);
+}
+
+class EventHomePostThePost extends EventsHome {
+  final BuiltPost post;
+
+  EventHomePostThePost(this.post);
+
+  @override
+  List<Object> get props => [post];
 }

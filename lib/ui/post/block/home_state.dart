@@ -36,3 +36,12 @@ class HomeStateOpenPost extends HomeState{
   @override
   List<Object> get props => [postId];
 }
+
+class HomeStatePosting extends HomeState{}
+
+class HomeStatePostPosted extends HomeState{
+  final String msg;
+
+  HomeStatePostPosted(this.msg);
+}
+
