@@ -30,8 +30,7 @@ Steps for creating built auto generated file:
  
  - Note if you don't want to rebuild widget on state change , its okay we don't have to make a
   state or event for it we can handle simply on the particular action. But there might be something
-  which can prevent re-building the widget look for it the 
-  documentation or somewhere.
+  which can prevent re-building the widget look for it in the documentation or somewhere.
    
  -------------------------------------------------------------------------------------------
 
