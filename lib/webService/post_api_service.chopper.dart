@@ -7,8 +7,8 @@ part of 'post_api_service.dart';
 // **************************************************************************
 
 // ignore_for_file: always_put_control_body_on_new_line, always_specify_types, prefer_const_declarations
-class _$PostApiService extends PostApiClient {
-  _$PostApiService([ChopperClient? client]) {
+class _$PostApiClient extends PostApiClient {
+  _$PostApiClient([ChopperClient? client]) {
     if (client == null) return;
     this.client = client;
   }
@@ -17,9 +17,11 @@ class _$PostApiService extends PostApiClient {
   final definitionType = PostApiClient;
 
   @override
-  Future<Response<BuiltList<BuiltPost>>> getPosts() {
+  Future<Response<BuiltList<BuiltPost>>> getPosts(
+      {int start = 0, int limit = 6}) {
     final $url = '/posts';
-    final $request = Request('GET', $url, client.baseUrl);
+    final $params = <String, dynamic>{'_start': start, '_limit': limit};
+    final $request = Request('GET', $url, client.baseUrl, parameters: $params);
     return client.send<BuiltList<BuiltPost>, BuiltPost>($request);
   }
 

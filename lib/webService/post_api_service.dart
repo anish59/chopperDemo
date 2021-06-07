@@ -12,7 +12,8 @@ part 'post_api_service.chopper.dart';
 @ChopperApi(baseUrl: "")
 abstract class PostApiClient extends ChopperService {
   @Get(path: AppApis.getAllPost)
-  Future<Response<BuiltList<BuiltPost>>> getPosts();
+  Future<Response<BuiltList<BuiltPost>>> getPosts(
+      {@Query('_start') int start = 0, @Query('_limit') int limit = 6});
 
   @Get(path: AppApis.getPostDetail)
   Future<Response<BuiltPost>> getPost(
@@ -28,7 +29,7 @@ abstract class PostApiClient extends ChopperService {
     final client = ChopperClient(
       baseUrl: AppConfig.getInstance().apiBaseUrl,
       services: [
-        _$PostApiService(),
+        _$PostApiClient(),
       ],
       converter: BuiltValueConverter(),
       errorConverter: BuiltValueConverter(errorType: ResponseFailure),
@@ -39,6 +40,6 @@ abstract class PostApiClient extends ChopperService {
       ],
     );
 
-    return _$PostApiService(client);
+    return _$PostApiClient(client);
   }
 }
