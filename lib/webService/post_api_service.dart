@@ -10,7 +10,7 @@ import 'package:chopper_demo/webService/app_config.dart';
 part 'post_api_service.chopper.dart';
 
 @ChopperApi(baseUrl: "")
-abstract class PostApiService extends ChopperService {
+abstract class PostApiClient extends ChopperService {
   @Get(path: AppApis.getAllPost)
   Future<Response<BuiltList<BuiltPost>>> getPosts();
 
@@ -24,7 +24,7 @@ abstract class PostApiService extends ChopperService {
     @Body() BuiltPost post,
   );
 
-  static PostApiService create() {
+  static PostApiClient create() {
     final client = ChopperClient(
       baseUrl: AppConfig.getInstance().apiBaseUrl,
       services: [

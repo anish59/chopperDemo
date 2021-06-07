@@ -5,10 +5,10 @@ import 'package:chopper_demo/ui/postDetail/block/post_detail_state.dart';
 import 'package:chopper_demo/webService/post_api_service.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class BlockPostDetail extends Bloc<EventPostDetail, StatePostDetail> {
-  final PostApiService service;
+class BlocPostDetail extends Bloc<EventPostDetail, StatePostDetail> {
+  final PostApiClient client;
 
-  BlockPostDetail({required this.service}) : super(StatePDLoadingPost());
+  BlocPostDetail({required this.client}) : super(StatePDLoadingPost());
 
   @override
   Stream<StatePostDetail> mapEventToState(EventPostDetail event) async* {
@@ -17,7 +17,7 @@ class BlockPostDetail extends Bloc<EventPostDetail, StatePostDetail> {
         yield StatePDLoadingPost();
 
         Response<BuiltPost> postDetail =
-            await service.getPost(event.postDetailId);
+            await client.getPost(event.postDetailId);
 
         // safe accessing the value
         yield StatePDDataLoaded(postDetail.body ?? BuiltPost());
