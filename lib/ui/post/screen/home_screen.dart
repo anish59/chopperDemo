@@ -18,13 +18,13 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  late HomeBlock homeBloc;
+  late BlocHome homeBloc;
   AlertDialog? dialog;
 
   @override
   void initState() {
     super.initState();
-    homeBloc = BlocProvider.of<HomeBlock>(context);
+    homeBloc = BlocProvider.of<BlocHome>(context);
     homeBloc.add(EventHomeGetAllPost());
   }
 
@@ -57,7 +57,7 @@ class _HomeScreenState extends State<HomeScreen> {
       return Center(child: CircularProgressIndicator());
     });*/
 
-    return BlocConsumer<HomeBlock, HomeState>(
+    return BlocConsumer<BlocHome, HomeState>(
       builder: (context, state) {
         if (state is HomeStateLoading) {
           return Center(child: CircularProgressIndicator());

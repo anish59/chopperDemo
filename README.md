@@ -33,6 +33,12 @@ Steps for creating built auto generated file:
   which can prevent re-building the widget look for it in the documentation or somewhere.
    
  -------------------------------------------------------------------------------------------
+ 
+  ### Dependency injection
+  
+  - Used get_it library for this. 
+  - look for injection container.
+  -------------------------------------------------------------------------------------------
 
 #### Todo:
 1. flavour implementation is not complete as I am unable to get flavor in code. (I guess as I

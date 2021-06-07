@@ -15,12 +15,12 @@ class PostDetailScreen extends StatefulWidget {
 }
 
 class _PostDetailScreenState extends State<PostDetailScreen> {
-  late BlockPostDetail _blockPostDetail;
+  late BlocPostDetail _blockPostDetail;
 
   @override
   void initState() {
     super.initState();
-    _blockPostDetail = BlocProvider.of<BlockPostDetail>(context);
+    _blockPostDetail = BlocProvider.of<BlocPostDetail>(context);
     _blockPostDetail.add(EventPDGetPostDetail(widget.postId));
   }
 
@@ -35,7 +35,7 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
   }
 
   Widget _buildBody(BuildContext context) {
-    return BlocBuilder<BlockPostDetail, StatePostDetail>(
+    return BlocBuilder<BlocPostDetail, StatePostDetail>(
         builder: (context, state) {
       if (state is StatePDLoadingPost) {
         return Center(child: CircularProgressIndicator());

@@ -7,10 +7,10 @@ import 'package:chopper_demo/util/logger.dart';
 import 'package:chopper_demo/webService/post_api_service.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class HomeBlock extends Bloc<EventsHome, HomeState> {
-  final PostApiService client;
+class BlocHome extends Bloc<EventsHome, HomeState> {
+  final PostApiClient client;
 
-  HomeBlock({required this.client}) : super(HomeStateLoading());
+  BlocHome({required this.client}) : super(HomeStateLoading());
 
   @override
   HomeState get state => HomeStateLoading();
