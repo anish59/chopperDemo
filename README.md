@@ -9,7 +9,7 @@ environment, dependency injection, pagination etc.
 
 <ins>commands</ins>
 - for creating auto generated files </br>
-=> ![#f03c15]**flutter packages pub run build_runner watch** `#f03c15`
+=> **flutter packages pub run build_runner watch**
 - note if while generating we get any issue we can try **Invalidate cache** and then run following
 commands.</br>
  **flutter clean**</br>
