@@ -8,9 +8,10 @@ environment, dependency injection, pagination etc.
 ### Chopper demo
 
 <ins>commands</ins>
-- for creating auto generated files => **flutter packages pub run build_runner watch**
-note if while generating we get any issue we can try **Invalidate cache** and then run following
- commands.</br>
+- for creating auto generated files </br>
+=> ![#f03c15]**flutter packages pub run build_runner watch** `#f03c15`
+- note if while generating we get any issue we can try **Invalidate cache** and then run following
+commands.</br>
  **flutter clean**</br>
  **flutter pub get**</br>
  **flutter packages pub run build_runner build --delete-conflicting-outputs**</br>
