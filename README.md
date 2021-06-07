@@ -11,9 +11,9 @@ environment, dependency injection, pagination etc.
 - for creating auto generated files => **flutter packages pub run build_runner watch**
 note if while generating we get any issue we can try **Invalidate cache** and then run following
  commands.</br>
- **flutter clean**
- **flutter pub get**
- **flutter packages pub run build_runner build --delete-conflicting-outputs**
+ **flutter clean**</br>
+ **flutter pub get**</br>
+ **flutter packages pub run build_runner build --delete-conflicting-outputs**</br>
  then run that  **flutter packages pub run build_runner watch**
 
 ----------------------------------------------------------------------------------------
