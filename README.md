@@ -10,7 +10,7 @@ environment, dependency injection, pagination etc.
 <ins>commands</ins>
 - for creating auto generated files => **flutter packages pub run build_runner watch**
 note if while generating we get any issue we can try **Invalidate cache** and then run following
- commands.
+ commands.</br>
  **flutter clean**
  **flutter pub get**
  **flutter packages pub run build_runner build --delete-conflicting-outputs**
