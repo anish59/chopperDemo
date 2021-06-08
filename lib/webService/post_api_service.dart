@@ -5,6 +5,7 @@ import 'package:chopper_demo/errorHandling/response_failure.dart';
 import 'package:chopper_demo/interceptors_converters/built_value_converter.dart';
 import 'package:chopper_demo/interceptors_converters/network_interceptor.dart';
 import 'package:chopper_demo/model/built_post.dart';
+import 'package:chopper_demo/util/constants/app_constants.dart';
 import 'package:chopper_demo/webService/app_config.dart';
 
 part 'post_api_service.chopper.dart';
@@ -12,7 +13,9 @@ part 'post_api_service.chopper.dart';
 @ChopperApi(baseUrl: "")
 abstract class PostApiClient extends ChopperService {
   @Get(path: AppApis.getAllPost)
-  Future<Response<BuiltList<BuiltPost>>> getPosts();
+  Future<Response<BuiltList<BuiltPost>>> getPosts(
+      {@Query('_start') int start = AppConstant.kPaginationStart,
+      @Query('_limit') int limit = AppConstant.kPaginationLimit});
 
   @Get(path: AppApis.getPostDetail)
   Future<Response<BuiltPost>> getPost(
@@ -28,7 +31,7 @@ abstract class PostApiClient extends ChopperService {
     final client = ChopperClient(
       baseUrl: AppConfig.getInstance().apiBaseUrl,
       services: [
-        _$PostApiService(),
+        _$PostApiClient(),
       ],
       converter: BuiltValueConverter(),
       errorConverter: BuiltValueConverter(errorType: ResponseFailure),
@@ -39,6 +42,6 @@ abstract class PostApiClient extends ChopperService {
       ],
     );
 
-    return _$PostApiService(client);
+    return _$PostApiClient(client);
   }
 }

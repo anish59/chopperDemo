@@ -6,40 +6,46 @@ import 'package:chopper_demo/ui/post/block/home_state.dart';
 import 'package:chopper_demo/util/logger.dart';
 import 'package:chopper_demo/webService/post_api_service.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rxdart/rxdart.dart';
+
+enum PostStatus { Initial, Success }
 
 class BlocHome extends Bloc<EventsHome, HomeState> {
   final PostApiClient client;
 
-  BlocHome({required this.client}) : super(HomeStateLoading());
+  PostStatus status = PostStatus.Initial;
+  List<BuiltPost> postList = [];
+  bool hasReachedMax = false;
+
+  BlocHome({required this.client}) : super(HomeStateInitial());
+
+/*  @override
+  HomeState get state => HomeStateLoading();*/
 
   @override
-  HomeState get state => HomeStateLoading();
+  Stream<Transition<EventsHome, HomeState>> transformEvents(
+      Stream<EventsHome> events,
+      TransitionFunction<EventsHome, HomeState> transitionFn) {
+    return super.transformEvents(
+      events.debounceTime(const Duration(milliseconds: 500)),
+      transitionFn,
+    );
+  }
 
   @override
   Stream<HomeState> mapEventToState(EventsHome event) async* {
     try {
-      if (event is EventHomeGetAllPost) {
-        yield HomeStateLoading();
-
-        Response<BuiltList<BuiltPost>> allPost = await client.getPosts();
-
-        // safe accessing the value
-        yield HomeStateGettingAllPost(allPost.body?.toList() ?? []);
-      } else if (event is EventHomeOpenPostDetail) {
-        yield HomeStateOpenPost(event.postId);
-      }else if(event is EventHomePostThePost){
+      if (event is EventHomePostThePost) {
         yield HomeStatePosting();
-
 
         final response = await client.postPost(event.post);
 
-        if(response.isSuccessful){
-          log.info("successfully Posted : ${response.body.toString()}" );
+        if (response.isSuccessful) {
+          log.info("successfully Posted : ${response.body.toString()}");
           yield HomeStatePostPosted("successfully Posted");
-        }else{
+        } else {
           yield HomeStateErrorOccurred('failed to post');
         }
-
       }
     } catch (e) {
       print(e);

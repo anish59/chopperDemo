@@ -5,43 +5,36 @@ abstract class HomeState extends Equatable {
   const HomeState();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
-class HomeStateLoading extends HomeState {}
-
-class HomeStateGettingAllPost extends HomeState {
-  final List<BuiltPost> allPost;
-
-  HomeStateGettingAllPost(this.allPost);
-
-  @override
-  List<Object> get props => allPost;
-}
+class HomeStateInitial extends HomeState {}
 
 class HomeStateErrorOccurred extends HomeState {
   final String error;
 
-  HomeStateErrorOccurred(this.error);
+  const HomeStateErrorOccurred(this.error);
 
   @override
   List<Object> get props => [error];
 }
 
-class HomeStateOpenPost extends HomeState{
+class HomeStateOpenPost extends HomeState {
   final int postId;
 
-  HomeStateOpenPost(this.postId);
+  const HomeStateOpenPost(this.postId);
 
   @override
   List<Object> get props => [postId];
 }
 
-class HomeStatePosting extends HomeState{}
+class HomeStatePosting extends HomeState {}
 
-class HomeStatePostPosted extends HomeState{
+class HomeStatePostPosted extends HomeState {
   final String msg;
 
-  HomeStatePostPosted(this.msg);
-}
+  const HomeStatePostPosted(this.msg);
 
+  @override
+  List<Object?> get props => [msg];
+}

@@ -1,12 +1,21 @@
 # chopper_demo
 
-A new Flutter application.
+Application showcasing illustration for core concepts such as Chopper, bloc, flavor, mock
+environment, dependency injection, pagination etc.
 
 ## Getting Started
 
-### Important commands
+### Chopper demo
 
-- for creating auto generated files => **flutter packages pub run build_runner watch**
+<ins>commands</ins>
+- for creating auto generated files </br>
+=> **flutter packages pub run build_runner watch**
+- note if while generating we get any issue we can try **Invalidate cache** and then run following
+commands.</br>
+ **flutter clean**</br>
+ **flutter pub get**</br>
+ **flutter packages pub run build_runner build --delete-conflicting-outputs**</br>
+ then run that  **flutter packages pub run build_runner watch**
 
 ----------------------------------------------------------------------------------------
 **Flavor build generation commands**
@@ -38,6 +47,13 @@ Steps for creating built auto generated file:
   
   - Used get_it library for this. 
   - look for injection container.
+  -------------------------------------------------------------------------------------------
+ 
+ ### Pagination
+ - follow reference https://bloclibrary.dev/#/flutterinfinitelisttutorial
+ - for a pagination list create a separate stateful widget and maintain its bloc, event and state
+   as given in above reference, as we need to get the bloc object in the init state of list widget
+   to maintain state properly for this.
   -------------------------------------------------------------------------------------------
 
 #### Todo:

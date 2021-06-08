@@ -1,11 +1,9 @@
 import 'package:chopper_demo/ui/post/screen/home_page.dart';
-import 'package:chopper_demo/util/di/injection_container.dart';
 import 'package:chopper_demo/util/logger.dart';
 import 'package:chopper_demo/webService/app_config.dart';
-import 'package:chopper_demo/webService/post_api_service.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:provider/provider.dart';
+
+import 'di/injection_container.dart';
 
 Future<void> main() async {
   loggerConfigure();
@@ -18,7 +16,8 @@ Future<void> main() async {
 class MyApp extends StatelessWidget {
   final bool isConfigurationSuccess;
 
-  const MyApp({Key? key, required this.isConfigurationSuccess}) : super(key: key);
+  const MyApp({Key? key, required this.isConfigurationSuccess})
+      : super(key: key);
 
   // This widget is the root of your application.
   @override
