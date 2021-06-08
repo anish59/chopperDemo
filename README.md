@@ -48,6 +48,13 @@ Steps for creating built auto generated file:
   - Used get_it library for this. 
   - look for injection container.
   -------------------------------------------------------------------------------------------
+ 
+ ### Pagination
+ - follow reference https://bloclibrary.dev/#/flutterinfinitelisttutorial
+ - for a pagination list create a separate stateful widget and maintain its bloc, event and state
+   as given in above reference, as we need to get the bloc object in the init state of list widget
+   to maintain state properly for this.
+  -------------------------------------------------------------------------------------------
 
 #### Todo:
 1. flavour implementation is not complete as I am unable to get flavor in code. (I guess as I

@@ -8,14 +8,6 @@ abstract class EventsHome extends Equatable {
   List<Object> get props => [];
 }
 
-class EventHomeGetAllPost extends EventsHome {}
-
-class EventHomeOpenPostDetail extends EventsHome {
-  final int postId;
-
-  EventHomeOpenPostDetail(this.postId);
-}
-
 class EventHomePostThePost extends EventsHome {
   final BuiltPost post;
 

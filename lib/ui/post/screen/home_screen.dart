@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 
+@deprecated
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
@@ -21,14 +22,11 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   late BlocHome homeBloc;
   AlertDialog? dialog;
-  final _scrollController = ScrollController();
 
   @override
   void initState() {
     super.initState();
     homeBloc = BlocProvider.of<BlocHome>(context);
-    homeBloc.add(EventHomeGetAllPost());
-    _scrollController.addListener(_onScroll);
   }
 
   @override
@@ -61,17 +59,12 @@ class _HomeScreenState extends State<HomeScreen> {
     });*/
 
     return BlocConsumer<BlocHome, HomeState>(
+      buildWhen: (previous, current) {
+        print("Call buildWhen(previous: $previous, current: $current)");
+        return true;
+      },
       builder: (context, state) {
-        if (state is HomeStateLoading) {
-          return Center(child: CircularProgressIndicator());
-        } else if (state is HomeStateGettingAllPost) {
-          return _buildPostList(state, context);
-        } else if (state is HomeStatePostPosted) {
-          return Center(child: CircularProgressIndicator()); // after posting
-          // we need to load the data again that why progress indicator
-        } else {
-          return Scaffold(body: Center(child: Text("Proper state not found")));
-        }
+        return Scaffold(body: Center(child: Text("Proper state not found")));
       },
       listener: (context, state) {
         if (state is HomeStateOpenPost) {
@@ -86,7 +79,7 @@ class _HomeScreenState extends State<HomeScreen> {
           // but for understanding we have to implement this if condition block
           // that's y calling back the api again
 
-          homeBloc.add(EventHomeGetAllPost());
+          // homeBloc.add(EventHomeGetAllPost());
 
           // and one more thing set this kind of state only when you don't
           // have to come back again and reloading the item is not needed
@@ -100,7 +93,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
           showSnackBar(context, msg: 'your Post is successfully posted');
 
-          homeBloc.add(EventHomeGetAllPost());
+          // homeBloc.add(EventHomeGetAllPost());
         }
       },
     );
@@ -126,19 +119,10 @@ class _HomeScreenState extends State<HomeScreen> {
   }*/
   }
 
+/*
   ListView _buildPostList(HomeStateGettingAllPost state, BuildContext context) {
-    return ListView.builder(
-      controller: _scrollController,
-      itemCount:
-          state.hasReachedMax ? state.posts.length : state.posts.length + 1,
-      padding: EdgeInsets.all(8),
-      itemBuilder: (context, index) {
-        return index >= state.posts.length
-            ? BottomLoader()
-            : _buildCardPostItem(state.posts, index);
-      },
-    );
-  }
+    return
+  }*/
 
   Card _buildCardPostItem(List<BuiltPost> posts, int index) {
     return Card(
@@ -156,7 +140,7 @@ class _HomeScreenState extends State<HomeScreen> {
             Navigator.of(context).push(MaterialPageRoute(
                 builder: (_) => PostDetailPage(postId: posts[index].id!)))
                 */
-          homeBloc.add(EventHomeOpenPostDetail(posts[index].id ?? 0))
+          // homeBloc.add(EventHomeOpenPostDetail(posts[index].id ?? 0))
         },
       ),
     );
@@ -164,18 +148,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void dispose() {
-    _scrollController.dispose();
     super.dispose();
-  }
-
-  void _onScroll() {
-    if (_isBottom) homeBloc.add(EventHomeGetAllPost());
-  }
-
-  bool get _isBottom {
-    if (!_scrollController.hasClients) return false;
-    final maxScroll = _scrollController.position.maxScrollExtent;
-    final currentScroll = _scrollController.offset;
-    return currentScroll >= (maxScroll * 0.9);
   }
 }

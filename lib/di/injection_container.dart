@@ -1,3 +1,4 @@
+import 'package:chopper_demo/ui/post/block/bloc_post_list.dart';
 import 'package:chopper_demo/ui/post/block/home_bloc.dart';
 import 'package:chopper_demo/ui/postDetail/block/post_detail_bloc.dart';
 import 'package:chopper_demo/util/logger.dart';
@@ -14,6 +15,8 @@ Future<void> initInjection() async {
     //blocs
     serviceLocator.registerFactory(() => BlocHome(client: serviceLocator<PostApiClient>()));
     serviceLocator.registerFactory(() => BlocPostDetail(client: serviceLocator<PostApiClient>()));
+    serviceLocator.registerFactory(() => BlocPostList(client: serviceLocator<PostApiClient>()));
+
   } on Exception catch (e) {
     log.severe(e.toString());
   }
