@@ -18,7 +18,8 @@ class _$PostApiClient extends PostApiClient {
 
   @override
   Future<Response<BuiltList<BuiltPost>>> getPosts(
-      {int start = 0, int limit = 6}) {
+      {int start = AppConstant.kPaginationStart,
+      int limit = AppConstant.kPaginationLimit}) {
     final $url = '/posts';
     final $params = <String, dynamic>{'_start': start, '_limit': limit};
     final $request = Request('GET', $url, client.baseUrl, parameters: $params);

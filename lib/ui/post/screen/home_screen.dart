@@ -3,6 +3,7 @@ import 'package:chopper_demo/ui/post/block/home_bloc.dart';
 import 'package:chopper_demo/ui/post/block/home_event.dart';
 import 'package:chopper_demo/ui/post/block/home_state.dart';
 import 'package:chopper_demo/ui/postDetail/screen/post_detail_page.dart';
+import 'package:chopper_demo/ui_components/bottom_loader.dart';
 import 'package:chopper_demo/ui_components/loader_dialog.dart';
 import 'package:chopper_demo/ui_components/snackbar.dart';
 import 'package:chopper_demo/webService/post_api_service.dart';
@@ -20,12 +21,14 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   late BlocHome homeBloc;
   AlertDialog? dialog;
+  final _scrollController = ScrollController();
 
   @override
   void initState() {
     super.initState();
     homeBloc = BlocProvider.of<BlocHome>(context);
     homeBloc.add(EventHomeGetAllPost());
+    _scrollController.addListener(_onScroll);
   }
 
   @override
@@ -62,7 +65,7 @@ class _HomeScreenState extends State<HomeScreen> {
         if (state is HomeStateLoading) {
           return Center(child: CircularProgressIndicator());
         } else if (state is HomeStateGettingAllPost) {
-          return _buildPostList(context, state.allPost);
+          return _buildPostList(state, context);
         } else if (state is HomeStatePostPosted) {
           return Center(child: CircularProgressIndicator()); // after posting
           // we need to load the data again that why progress indicator
@@ -123,31 +126,56 @@ class _HomeScreenState extends State<HomeScreen> {
   }*/
   }
 
-  ListView _buildPostList(BuildContext context, List<BuiltPost> posts) {
+  ListView _buildPostList(HomeStateGettingAllPost state, BuildContext context) {
     return ListView.builder(
-      itemCount: posts.length,
+      controller: _scrollController,
+      itemCount:
+          state.hasReachedMax ? state.posts.length : state.posts.length + 1,
       padding: EdgeInsets.all(8),
       itemBuilder: (context, index) {
-        return Card(
-          elevation: 4,
-          child: ListTile(
-            title: Text(
-              posts[index].title,
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
-            subtitle: Text(posts[index].body),
-            onTap: () => {
-              /*
-              you can add this navigator directly but for practice add event
-              over here instead
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (_) => PostDetailPage(postId: posts[index].id!)))
-                  */
-              homeBloc.add(EventHomeOpenPostDetail(posts[index].id ?? 0))
-            },
-          ),
-        );
+        return index >= state.posts.length
+            ? BottomLoader()
+            : _buildCardPostItem(state.posts, index);
       },
     );
+  }
+
+  Card _buildCardPostItem(List<BuiltPost> posts, int index) {
+    return Card(
+      elevation: 4,
+      child: ListTile(
+        title: Text(
+          '$index ${posts[index].title}',
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
+        subtitle: Text(posts[index].body),
+        onTap: () => {
+          /*
+            you can add this navigator directly but for practice add event
+            over here instead
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (_) => PostDetailPage(postId: posts[index].id!)))
+                */
+          homeBloc.add(EventHomeOpenPostDetail(posts[index].id ?? 0))
+        },
+      ),
+    );
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  void _onScroll() {
+    if (_isBottom) homeBloc.add(EventHomeGetAllPost());
+  }
+
+  bool get _isBottom {
+    if (!_scrollController.hasClients) return false;
+    final maxScroll = _scrollController.position.maxScrollExtent;
+    final currentScroll = _scrollController.offset;
+    return currentScroll >= (maxScroll * 0.9);
   }
 }

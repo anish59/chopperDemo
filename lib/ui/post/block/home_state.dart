@@ -1,22 +1,23 @@
 import 'package:chopper_demo/model/built_post.dart';
 import 'package:equatable/equatable.dart';
 
-abstract class HomeState extends Equatable {
-  const HomeState();
 
+abstract class HomeState extends Equatable {
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class HomeStateLoading extends HomeState {}
 
 class HomeStateGettingAllPost extends HomeState {
-  final List<BuiltPost> allPost;
+  final List<BuiltPost> posts;
+  final bool hasReachedMax;
 
-  HomeStateGettingAllPost(this.allPost);
+  HomeStateGettingAllPost(this.posts, this.hasReachedMax);
 
   @override
-  List<Object> get props => allPost;
+  List<Object?> get props => [posts,hasReachedMax];
+
 }
 
 class HomeStateErrorOccurred extends HomeState {
@@ -28,7 +29,7 @@ class HomeStateErrorOccurred extends HomeState {
   List<Object> get props => [error];
 }
 
-class HomeStateOpenPost extends HomeState{
+class HomeStateOpenPost extends HomeState {
   final int postId;
 
   HomeStateOpenPost(this.postId);
@@ -37,11 +38,12 @@ class HomeStateOpenPost extends HomeState{
   List<Object> get props => [postId];
 }
 
-class HomeStatePosting extends HomeState{}
+class HomeStatePosting extends HomeState {}
 
-class HomeStatePostPosted extends HomeState{
+class HomeStatePostPosted extends HomeState {
   final String msg;
 
   HomeStatePostPosted(this.msg);
+  @override
+  List<Object?> get props => [msg];
 }
-
