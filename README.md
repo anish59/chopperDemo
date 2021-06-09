@@ -54,6 +54,7 @@ Steps for creating built auto generated file:
  - for a pagination list create a separate stateful widget and maintain its bloc, event and state
    as given in above reference, as we need to get the bloc object in the init state of list widget
    to maintain state properly for this.
+ - keep pagination something like 15 or 20 which is more than screen height.
   -------------------------------------------------------------------------------------------
 
 #### Todo:
