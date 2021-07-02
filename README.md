@@ -16,6 +16,34 @@ commands.</br>
  **flutter pub get**</br>
  **flutter packages pub run build_runner build --delete-conflicting-outputs**</br>
  then run that  **flutter packages pub run build_runner watch**
+ 
+ - code snippet for generating builtValue model class:
+
+``
+import 'package:built_value/built_value.dart';
+import 'package:built_value/serializer.dart';
+import 'dart:convert';
+
+part '$package_name$.g.dart';
+
+
+abstract class $CLASS_NAME$ implements Built<$CLASS_NAME$, $CLASS_NAME$Builder> {
+  $CLASS_NAME$._();
+  factory $CLASS_NAME$([void Function($CLASS_NAME$Builder) updates]) = _$$$CLASS_NAME$;
+  static Serializer<$CLASS_NAME$> get serializer =>_$$$objectName$Serializer;
+  
+  String toJson() {
+    return json.encode(Serializers().serializeWith($CLASS_NAME$.serializer, this));
+  }
+
+  static $CLASS_NAME$? fromJson(String jsonString) {
+    return Serializers()
+        .deserializeWith($CLASS_NAME$.serializer, jsonDecode(jsonString));
+  }
+}
+//run below command for creating auto generate files
+//flutter packages pub run build_runner watch 
+``
 
 ----------------------------------------------------------------------------------------
 **Flavor build generation commands**
