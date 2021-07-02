@@ -19,7 +19,7 @@ commands.</br>
  
  - code snippet for generating builtValue model class:
 
-``
+```
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
 import 'dart:convert';
@@ -43,7 +43,7 @@ abstract class $CLASS_NAME$ implements Built<$CLASS_NAME$, $CLASS_NAME$Builder> 
 }
 //run below command for creating auto generate files
 //flutter packages pub run build_runner watch 
-``
+```
 
 ----------------------------------------------------------------------------------------
 **Flavor build generation commands**
